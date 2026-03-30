@@ -37,8 +37,6 @@ public class Exam {
 	private LocalDate date;
 	
 	
-	
-
 	public Course getCourse() {
 		return course;
 	}
