@@ -6,4 +6,6 @@ import com.example.demo.entity.Course;
 
 public interface CourseRepo extends JpaRepository<Course,Long>{
 
+	Course findByCode(String id);
+ 
 }

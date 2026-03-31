@@ -1,13 +1,17 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"student_id","course_id"})})
 public class Enrollment {
 
 	@Id
@@ -22,14 +26,22 @@ public class Enrollment {
 	@JoinColumn(name = "course_id", nullable = false)
 	private Course course;
 	
+	@Column(unique = true)
+	private String enrollmentId;
+	
 
-	public long getId() {
-		return id;
+	public String getEnrollmentId() {
+		return enrollmentId;
 	}
 
-	public void setId(long id) {
+	public void setEnrollmentId(String enrollmentId) {
+		this.enrollmentId = enrollmentId;
+	} 
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public Student getStudent() {
 		return student;

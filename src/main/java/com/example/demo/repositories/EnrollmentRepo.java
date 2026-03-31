@@ -6,4 +6,7 @@ import com.example.demo.entity.Enrollment;
 
 public interface EnrollmentRepo extends JpaRepository<Enrollment,Long> {
 
-}
+
+	Enrollment findByEnrollmentId(String id);
+	
+} 
