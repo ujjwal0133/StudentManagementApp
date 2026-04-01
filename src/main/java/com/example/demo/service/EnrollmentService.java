@@ -98,4 +98,15 @@ public class EnrollmentService {
 		
 	}
 	
+	public Enrollment fromStudentAndCourse(String sid,String cid) {
+		
+		Student s = srepo.findByRollNo(sid);
+		Course c = crepo.findByCode(cid);
+		
+		Enrollment e = repo.findByStudentAndCourse(s, c);
+		
+		return e;
+		
+	}
+	
 }

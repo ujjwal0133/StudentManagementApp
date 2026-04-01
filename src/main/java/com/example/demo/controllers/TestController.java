@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.AttendanceDto;
 import com.example.demo.dto.CourseDto;
 import com.example.demo.dto.EnrollmentDto;
 import com.example.demo.dto.StudentDto;
+import com.example.demo.service.AttendanceService;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.EnrollmentService;
 import com.example.demo.service.StudentService;
@@ -33,6 +36,9 @@ public class TestController {
 	
 	@Autowired
 	EnrollmentService eservice;
+	
+	@Autowired
+	AttendanceService aservice;
 	
 	@PostMapping
 	public ResponseEntity<String> addStudent(@RequestBody StudentDto dto){
@@ -94,5 +100,24 @@ public class TestController {
 		List<EnrollmentDto> list = eservice.getAll();
 		return ResponseEntity.ok(list);
 	}
+	
+	@PostMapping("/attendance")
+	public ResponseEntity<String> setAttendance(@RequestBody AttendanceDto dto){
+		
+		aservice.createAttendance(dto);
+		return ResponseEntity.ok("Attendance marked");
+		
+	}
+	
+	@GetMapping("/attendance/{date}")
+	public ResponseEntity<List<AttendanceDto>> getAllAttendance(@PathVariable LocalDate date){
+		
+		List<AttendanceDto> list = aservice.getAll(date);
+		
+		return ResponseEntity.ok(list);
+		
+	}
+	
+	
 	
 }

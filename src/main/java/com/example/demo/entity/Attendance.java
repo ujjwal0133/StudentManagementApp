@@ -27,5 +27,39 @@ public class Attendance {
 	private LocalDate date;
 	
 	private boolean present;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Enrollment getEnrollment() {
+		return enrollment;
+	}
+
+	public void setEnrollment(Enrollment enrollment) {
+		this.enrollment = enrollment;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public boolean isPresent() {
+		return present;
+	}
+
+	public void setPresent(boolean present) {
+		this.present = present;
+	}
+	
+	
 	
 }
