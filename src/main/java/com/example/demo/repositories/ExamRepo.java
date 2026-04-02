@@ -6,4 +6,6 @@ import com.example.demo.entity.Exam;
 
 public interface ExamRepo extends JpaRepository<Exam,Long>{
 
+	Exam findByExamId(String exam_id); 
+
 }

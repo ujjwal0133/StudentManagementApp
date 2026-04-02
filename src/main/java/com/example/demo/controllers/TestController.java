@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.AttendanceDto;
 import com.example.demo.dto.CourseDto;
 import com.example.demo.dto.EnrollmentDto;
+import com.example.demo.dto.ExamDto;
+import com.example.demo.dto.MarksDto;
 import com.example.demo.dto.StudentDto;
 import com.example.demo.service.AttendanceService;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.EnrollmentService;
+import com.example.demo.service.ExamService;
+import com.example.demo.service.MarksService;
 import com.example.demo.service.StudentService;
 
 @RestController
@@ -39,6 +44,12 @@ public class TestController {
 	
 	@Autowired
 	AttendanceService aservice;
+	
+	@Autowired
+	ExamService exservice;
+	
+	@Autowired
+	MarksService marksService;
 	
 	@PostMapping
 	public ResponseEntity<String> addStudent(@RequestBody StudentDto dto){
@@ -118,6 +129,40 @@ public class TestController {
 		
 	}
 	
+	@PostMapping("/exam")
+	public ResponseEntity<String> createExam(@RequestBody ExamDto dto){
+		exservice.createExam(dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body("Exam Created Successfully !");
+	}
+	
+	@GetMapping("/exam")
+	public ResponseEntity<List<ExamDto>> getAllExams(){
+		List<ExamDto> list = exservice.getAll();
+		return ResponseEntity.ok(list);
+	}
+	@PostMapping("/marks")
+	public ResponseEntity<Void> createMarks(@RequestBody MarksDto dto) {
+	    marksService.createMarks(dto);
+	    return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@GetMapping("/marks/{enrollmentId}")
+	public ResponseEntity<MarksDto> getMarks(@PathVariable String enrollmentId) {
+	    MarksDto dto = marksService.getMarks(enrollmentId);
+	    return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("/marks")
+	public ResponseEntity<List<MarksDto>> getAllMarks() {
+	    List<MarksDto> list = marksService.getAllMarks();
+	    return ResponseEntity.ok(list);
+	} 
+
+	@GetMapping("/marks/exam/{examId}")
+	public ResponseEntity<List<MarksDto>> getMarksByExam(@PathVariable String examId) {
+	    List<MarksDto> list = marksService.getMarksByExam(examId);
+	    return ResponseEntity.ok(list);
+	}
 	
 	
 }

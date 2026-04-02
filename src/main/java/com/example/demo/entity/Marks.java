@@ -23,7 +23,7 @@ public class Marks {
 	
 	@ManyToOne
 	@JoinColumn(name = "exam_id", nullable = false)
-	private Exam exam_code;
+	private Exam examCode;
 	
 	private int marksObtained; 
 
@@ -43,12 +43,12 @@ public class Marks {
 		this.enrollment = enrollment;
 	}
 
-	public Exam getExam_id() {
-		return exam_code;
+	public Exam getExamCode() {
+		return examCode;
 	}
 
-	public void setExam_id(Exam exam_id) {
-		this.exam_code = exam_id;
+	public void setExamCode(Exam exam_code) {
+		this.examCode = exam_code;
 	}
 
 	public int getMarksObtained() {
