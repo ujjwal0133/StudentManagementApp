@@ -34,7 +34,7 @@ public class AuthenticationService {
 		
 		User user = mapper.toEntity(dto);
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
-		user.setRole(Role.USER);
+		user.setRole(Role.ADMIN);
 		repo.save(user);
 		
 	}

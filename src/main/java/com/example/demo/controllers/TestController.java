@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,7 @@ public class TestController {
 	@Autowired
 	MarksService marksService;
 	
+	@PreAuthorize("hasAuthority('STUDENT_EDIT')")
 	@PostMapping
 	public ResponseEntity<String> addStudent(@RequestBody StudentDto dto){
 		
@@ -58,19 +60,22 @@ public class TestController {
 		return ResponseEntity.ok("Student Added");
 		
 	}
-	
+
+	@PreAuthorize("hasAuthority('STUDENT_READ')")
 	@GetMapping("/{id}")
 	public ResponseEntity<StudentDto> getStudent(@PathVariable String id){
 		StudentDto s = service.getStudent(id);
 		return ResponseEntity.ok(s);
 	}
 	
+	@PreAuthorize("hasAuthority('STUDENT_READ')")
 	@GetMapping
 	public ResponseEntity<List<StudentDto>> getAll(){
 		List<StudentDto> list = service.getAll();
 		return ResponseEntity.ok(list);
 	}
 	
+	@PreAuthorize("hasAuthority('COURSE_EDIT')")
 	@PostMapping("/course")
 	public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto dto){
 		
@@ -78,40 +83,48 @@ public class TestController {
 		return ResponseEntity.created(URI.create("/course/"+ dto.getCode())).body(dto);
 	}
 	
+	@PreAuthorize("hasAuthority('COURSE_READ')")
 	@GetMapping("/course")
 	public ResponseEntity<List<CourseDto>> getAllCourse(){
 		return ResponseEntity.ok(cservice.getAll());
 	}
 	
+	@PreAuthorize("hasAuthority('COURSE_READ')")
 	@GetMapping("/course/{id}")
 	public ResponseEntity<CourseDto> getCourse(@PathVariable String id){
 		return ResponseEntity.ok(cservice.getCourse(id));
 	}
 	
+	@PreAuthorize("hasAuthority('COURSE_READ')")
 	@PutMapping("/course/{id}")
 	public ResponseEntity<CourseDto> updateCourse(@PathVariable String id, @RequestBody CourseDto dto){
 		cservice.update(id, dto);
 		return ResponseEntity.ok(dto);
 	}
 	
+	
+	@PreAuthorize("hasAuthority('COURSE_EDIT')")
 	@DeleteMapping("/course/{id}")
 	public ResponseEntity<Void>  deleteCourse(@PathVariable String id){
 		cservice.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAuthority('ENROLLMENT_EDIT')")
 	@PostMapping("/enrollment")
 	public ResponseEntity<String> createEnrollment(@RequestBody EnrollmentDto dto){
 		eservice.createEnrollment(dto);
 		return ResponseEntity.ok("Enrollment Created");
 	}
 	
+	@PreAuthorize("hasAuthority('ENROLLMENT_READ')")
 	@GetMapping("/enrollment")
 	public ResponseEntity<List<EnrollmentDto>> getAllEnrollment(){
 		List<EnrollmentDto> list = eservice.getAll();
 		return ResponseEntity.ok(list);
 	}
 	
+	@PreAuthorize("hasAuthority('ATTENDANCE_EDIT')")
 	@PostMapping("/attendance")
 	public ResponseEntity<String> setAttendance(@RequestBody AttendanceDto dto){
 		
@@ -119,7 +132,8 @@ public class TestController {
 		return ResponseEntity.ok("Attendance marked");
 		
 	}
-	
+
+	@PreAuthorize("hasAuthority('ATTENDANCE_EDIT')")
 	@GetMapping("/attendance/{date}")
 	public ResponseEntity<List<AttendanceDto>> getAllAttendance(@PathVariable LocalDate date){
 		
@@ -129,35 +143,42 @@ public class TestController {
 		
 	}
 	
+	@PreAuthorize("hasAuthority('EXAM_EDIT')")
 	@PostMapping("/exam")
 	public ResponseEntity<String> createExam(@RequestBody ExamDto dto){
 		exservice.createExam(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body("Exam Created Successfully !");
 	}
 	
+	@PreAuthorize("hasAuthority('EXAM_EDIT')")
 	@GetMapping("/exam")
 	public ResponseEntity<List<ExamDto>> getAllExams(){
 		List<ExamDto> list = exservice.getAll();
 		return ResponseEntity.ok(list);
 	}
+	
+	@PreAuthorize("hasAuthority('MARKS_EDIT')")
 	@PostMapping("/marks")
 	public ResponseEntity<Void> createMarks(@RequestBody MarksDto dto) {
 	    marksService.createMarks(dto);
 	    return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
+	@PreAuthorize("hasAuthority('MARKS_READ')")
 	@GetMapping("/marks/{enrollmentId}")
 	public ResponseEntity<MarksDto> getMarks(@PathVariable String enrollmentId) {
 	    MarksDto dto = marksService.getMarks(enrollmentId);
 	    return ResponseEntity.ok(dto);
 	}
 
+	@PreAuthorize("hasAuthority('MARKS_EDIT')")
 	@GetMapping("/marks")
 	public ResponseEntity<List<MarksDto>> getAllMarks() {
 	    List<MarksDto> list = marksService.getAllMarks();
 	    return ResponseEntity.ok(list);
 	} 
 
+	@PreAuthorize("hasAuthority('MARKS_EDIT')")
 	@GetMapping("/marks/exam/{examId}")
 	public ResponseEntity<List<MarksDto>> getMarksByExam(@PathVariable String examId) {
 	    List<MarksDto> list = marksService.getMarksByExam(examId);

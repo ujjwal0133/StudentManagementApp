@@ -1,0 +1,18 @@
+package com.example.demo.entity;
+
+public enum Permission{
+	
+	STUDENT_READ,
+	STUDENT_EDIT,
+	ATTENDANCE_READ,
+	ATTENDANCE_EDIT,
+	COURSE_READ,
+	COURSE_EDIT,
+	ENROLLMENT_READ,
+	ENROLLMENT_EDIT,
+	MARKS_READ,
+	MARKS_EDIT,
+	
+}
+
+

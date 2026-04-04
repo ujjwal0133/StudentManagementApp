@@ -3,6 +3,8 @@ package com.example.demo.security;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,10 +32,20 @@ public class UserDetailsClass implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		return List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().name()));
+		Role role = user.getRole();
+				
+		Set<SimpleGrantedAuthority> perms = role.getPermissions().stream()
+												.map(x -> new SimpleGrantedAuthority(x.name()))
+												.collect(Collectors.toSet());
+		
+		perms.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+		
+		return perms;
+		
+		
 	}
 	
-	public Role getRole() {
+	public Role getRole() { 
 		return user.getRole();
 	}
 
